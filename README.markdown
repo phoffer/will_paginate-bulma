@@ -4,7 +4,7 @@
 
 This gem integrates the [Bulma](http://bulma.io) [pagination component](http://bulma.io/documentation/components/pagination/) with the [will_paginate](https://github.com/mislav/will_paginate) pagination gem.
 
-## Supports Bulma 0.4.2
+## Supports Bulma 0.4.2-0.9.0
 
 ## Install
 
@@ -47,6 +47,20 @@ end
 ```
 <%= will_paginate @collection, renderer: BulmaPagination::Sinatra %>
 ```
+
+## Configuration
+Any of the above usage scenarios will accept configuration options, allowing the user to change the [pagination components](https://bulma.io/documentation/components/pagination/) appearance with Bulma modifier classes. For example, the following will render the pagination component centered on the page:
+
+```
+<%= will_paginate @collection, renderer: BulmaPagination::Rails, class: 'is-centered' %>
+```
+
+The supported configuration options are as follows:
+* `class` applies a class to the top level pagination nav element
+* `link_separator` text or html to insert between pagination-link elements
+* `link_options` a hash of attributes added to active pagination-link elements _(note, classes added here will be overwritten)_
+* `previous_label` text or html to replace the inner content of the link within the pagination-previous element
+* `next_label` text or html to replace the inner content of the link within the pagination-next element
 
 
 Contributing
