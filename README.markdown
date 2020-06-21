@@ -61,7 +61,9 @@ The supported configuration options are as follows:
 * `link_options` a hash of attributes added to active pagination-link elements _(note, classes added here will be overwritten)_
 * `previous_label` text or html to replace the inner content of the link within the pagination-previous element
 * `next_label` text or html to replace the inner content of the link within the pagination-next element
+* `maximum_links` affect how spacers are applied when you have many pages. This allows you to show the first and last page, then the current page with a certain number of pages on either sides.
 
+![](https://github.com/phoffer/will_paginate-bulma/blob/master/example/maximum_links_2_example.png)
 
 Contributing
 ------------
