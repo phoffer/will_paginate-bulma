@@ -8,9 +8,7 @@ module BulmaPagination
       pages = pagination
       page_prev = pages.delete(:previous_page)
       page_next = pages.delete(:next_page)
-      list_items = pages.map do |item|
-        item.is_a?(Integer) ? page_number(item) : send(item)
-      end.join(@options[:link_separator])
+      list_items = visible_page_numbers(pages).join(@options[:link_separator])
       content = tag("ul", list_items, class: "pagination-list")
       content.prepend(next_page) if page_next
       content.prepend(previous_page) if page_prev
@@ -23,9 +21,34 @@ module BulmaPagination
 
     protected
 
-    def page_number(page)
-      link_options = @options[:link_options] || {}
+    def visible_page_numbers(pages)
+      if @options[:maximum_links] && pages.size > @options[:maximum_links]
+        link_offset = @options[:maximum_links] / 2
+        link_start = [(current_page.to_i - link_offset - 1), 0].max
+        link_end = current_page.to_i + link_offset - 1
+        pages = ([pages.first] + pages[link_start..link_end] + [pages.last]).uniq
+        pages = pagination_links_with_gaps(pages)
+      else
+        pages.map { |page| pagination_link(page) }
+      end
+    end
 
+    def pagination_links_with_gaps(pages)
+      pages_with_gaps = []
+      last_page = 0
+
+      pages.each do |page|
+        if page - last_page != 1
+          pages_with_gaps << gap
+        end
+        pages_with_gaps << pagination_link(page)
+        last_page = page
+      end
+      pages_with_gaps
+    end
+
+    def pagination_link(page)
+      link_options = @options[:link_options] || {}
       if page == current_page
         tag :li, tag(:span, page), class: ('pagination-link is-current')
       else
