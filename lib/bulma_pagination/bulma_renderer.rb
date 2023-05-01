@@ -59,7 +59,8 @@ module BulmaPagination
     def previous_or_next_page(page, text, classname)
       link_options = @options[:link_options] || {}
       if page
-        tag :li, link(text, page, link_options), class: classname
+        link_options[:class] = classname
+        link(text, page, link_options)
       else
         tag :li, tag(:span, text), class: classname, disabled: true
       end
